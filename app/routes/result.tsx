@@ -6,7 +6,13 @@ import { City } from '~/interfaces/cityInterface';
 export const loader: LoaderFunction = async ({ request }) => {
     const session = await getSession(request.headers.get('Cookie'));
     const recommendedCities = session.get('recommendedCities') || [];
-    return json({ cities: JSON.parse(recommendedCities) });
+
+    const citiesObj = JSON.parse(recommendedCities);
+    // Transformamos el objeto en un arreglo de valores
+    const cities = Object.values(citiesObj);
+
+
+    return json({ cities });
 };
 
 export default function Result() {

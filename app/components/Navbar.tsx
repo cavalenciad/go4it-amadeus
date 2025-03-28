@@ -11,7 +11,7 @@ export default function Navbar() {
                 {/* Navigation Links */}
                 <ul className="flex space-x-16 text-gray-700 font-medium ml-12">
                     <li><Link to="/" className="hover:text-blue-500">Inicio</Link></li>
-                    <li className="hover:text-blue-500 cursor-pointer">Reporte</li>
+                    <li><Link to="/ListUser" className="hover:text-blue-500 cursor-pointer">Reporte</Link></li>
                     <li><a href="https://amadeus.com/es" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500">Amadeus</a></li>
                 </ul>
             </div>
