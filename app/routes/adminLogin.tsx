@@ -12,17 +12,21 @@ export const action: ActionFunction = async ({ request }) => {
 
     if (!email || !password) {
       return json(
-        { success: false, error: 'Email y contraseña son requeridos' },
+        { success: false, 
+          error: 'Email y contraseña son requeridos' },
         { status: 400 }
       );
     }
-
+    
     const response = await authService.loginAdmin({ email, password });
     const session = await getSession(request.headers.get('Cookie'));
-    
     // Store both token and expiration
     session.set('adminToken', response.token);
     session.set('tokenExpiration', response.expiration);
+    
+    console.log('Token:', response.token);
+    console.log('Expiration:', response.expiration);
+
 
     // Redirect to ReportAdmin after successful login
     return redirect('/ReportAdmin', {
@@ -44,7 +48,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function AdminLogin() {
   const actionData = useActionData<{ success: boolean; error?: string }>();
-
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-144px)]">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">

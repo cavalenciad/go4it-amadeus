@@ -1,6 +1,9 @@
 import { LoaderFunction, json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getSession } from '~/services/sesionService';
+import userService from '~/services/userService';
+
+
 
 export const loader: LoaderFunction = async ({ request }) => {
     const session = await getSession(request.headers.get('Cookie'));
@@ -17,7 +20,27 @@ export const loader: LoaderFunction = async ({ request }) => {
     });
 };
 
+
+// se trae la información
+export const user: LoaderFunction = async () => {
+
+    const usersData = await userService.getUsers();
+    const users = usersData.map((user:any) => ({
+        id: user.id,
+        Full_name: user.full_name,
+        Email: user.email,
+    }));
+    return json({ users }); // Asegúrate de que users se retorne aquí
+
+}
+
+
+
 export default function ReportAdmin() {
+
+    const {users} = useLoaderData<{ users: any[]}>();
+
+
     const { expiration } = useLoaderData<{ isAuthenticated: boolean; expiration: string }>();
 
     return (
@@ -29,6 +52,26 @@ export default function ReportAdmin() {
                 </p>
                 {/* Add your report content here */}
             </div>
+            <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.full_name}</td>
+                                <td>{user.email}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+
+
+                </table>
         </div>
     );
 }

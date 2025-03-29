@@ -81,11 +81,27 @@ const deleteUser = async (id: number) => {
     }
 }
 
+// Método para obtener usuarios paginados
+const getPagedUsers = async (page: number, pageSize: number) => {
+    try {
+        const response = await fetch(`${API_URL}/paged?page=${page}&pageSize=${pageSize}`);
+        if (!response.ok) {
+            throw new Error('Error fetching paged users');
+        }
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching paged users:', error);
+        throw error;
+    }
+};
+
+
 export default {
     getUsers,
     getUserById,
     getUserByEmail,
     addUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getPagedUsers
 };
