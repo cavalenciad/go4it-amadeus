@@ -1,4 +1,4 @@
-export interface Pagedresult<T> {
+export interface IPagedResult<T> {
     items: T[];
     currentPage: number;
     pageSize: number;
